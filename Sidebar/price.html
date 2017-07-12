@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Meals</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="jquery-ui-1.12.1/jquery-ui.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="jquery-ui-1.12.1/jquery-ui.min.js"></script>
+
+</head>
+
+<body style="background: ghostwhite">
+
+
+<div class="container-fluid" style="max-width: 960px">
+
+    <div class="jumbotron">
+        <h1>Meals</h1>
+        <p class="lead">Tasty food. Great savings.</p>
+    </div>
+
+    <div class="ing-heading">
+        <h2>Below is a list of all the ingredients used in the recipe:</h2>
+    </div>
+
+    <table class="table table-striped" id="priceTable">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Matched Product</th>
+            <th>Unit Price</th>
+            <th>Include?</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--Insert using JavaScript-->
+        </tbody>
+    </table>
+
+    <hr>
+    <br>
+    <div id="total" class="rightAlign">
+        <h4>Total:</h4>
+        <h3 id="totalPrice"></h3>
+    </div>
+    <div id="store" class="rightAlign">
+        <h4>When you buy from:</h4>
+        <img src="asset/store1_logo.png" class="storeLogo" href="https://www.saveonfoods.com/">
+    </div>
+
+    <hr />
+    <footer class="footer" style="clear: both">
+        <p>&copy;2017 Meals, Inc. All rights reserved.</p>
+    </footer>
+
+</div> <!-- /container -->
+
+
+<!-- Javascript -->
+<script>
+    // Find a <table> element with id="myTable":
+    var table = document.getElementById("priceTable").lastElementChild;
+
+    var ingredients = ["Large tomatoes", "Olive oil", "Cloves garlic, crushed", "Large basil leaves, chopped"];
+    var quantity = [2, 2, 2, 4];
+    var unitPrice = [3.99, 4.99, 2.79, 1.95];
+
+    // Create an empty <tr> element and add it to the end of the table:
+    var row;
+
+    for (var i = 0; i < ingredients.length; i++) {
+        row = table.insertRow(-1);
+        // Insert new cells (<td> elements) in row:
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+
+        // Add some text to the new cells:
+        cell1.innerText = i + 1;
+        cell2.innerText = ingredients[i];
+        cell3.innerText = quantity[i];
+        cell4.innerText = "TBD";
+        cell5.innerText = unitPrice[i];
+        cell6.innerHTML = '<input type="checkbox" name="item_' + i + '" id="item_' + i + '" class="css-checkbox" checked/><label class="css-label" for="item_' + i + '"></label>';
+    }
+
+
+    $(".css-checkbox").change(
+        function () {
+            calculateTotalPrice();
+        }
+    );
+
+    $(document).ready(function () {
+        calculateTotalPrice();
+    });
+
+    function calculateTotalPrice() {
+        var totalP = 0;
+        for (var i = 0; i < ingredients.length; i++) {
+            if ($("#item_" + i).prop("checked"))
+                totalP += unitPrice[i] * quantity[i];
+
+        }
+
+        totalP = Math.round(totalP * 100) / 100;
+        $("#totalPrice").text(totalP);
+        $("#totalPrice").effect("highlight", "", 500);
+    }
+
+</script>
+
+
+</body>
+</html>
